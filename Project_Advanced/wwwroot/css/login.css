@@ -1,0 +1,130 @@
+﻿/* General Page Styles */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+section {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+form {
+    margin-top: 10px;
+}
+
+.form-floating {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+/* Remember Me Checkbox */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+/* Submit Button */
+#login-submit {
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+    #login-submit:hover {
+        background-color: #1659a2;
+    }
+
+/* Links Styled as Buttons */
+#forgot-password,
+#resend-confirmation,
+a[asp-page="./Register"] {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 15px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    #forgot-password:hover,
+    #resend-confirmation:hover,
+    a[asp-page="./Register"]:hover {
+        background-color: #0056b3;
+        border-color: #003f7d;
+    }
+
+#forgot-password {
+    margin-right: 5px;
+}
+
+/* Container for Buttons and Links */
+.link-buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between items */
+    margin-top: 15px;
+}
+
+/* Links Styled as Buttons */
+.link-button {
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: 1px solid #0056b3;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    .link-button:hover {
+        background-color: #0056b3;
+        border-color: #004080;
+        text-decoration: none;
+    }
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .col-md-4 {
+        margin: 0 auto;
+    }
+
+    section {
+        box-shadow: none;
+        padding: 15px;
+    }
+}

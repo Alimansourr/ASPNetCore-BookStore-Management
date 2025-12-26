@@ -1,0 +1,51 @@
+﻿.a-cleanup {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+    .a-cleanup:hover {
+        text-decoration: none;
+        color: inherit;
+    }
+
+.card-img-custom {
+    width: 100%;
+    height: 26vw; /* Or adjust with media queries */
+    object-fit: cover;
+}
+
+.store-card {
+    transition: all 0.2s ease;
+}
+
+.quantityproduct {
+color:black;
+
+}
+
+
+.store-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.store-btn {
+    transition: all 0.2s ease;
+}
+
+    .store-btn:hover {
+        background-color: forestgreen;
+        border: 1px solid forestgreen;
+        color: white;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}

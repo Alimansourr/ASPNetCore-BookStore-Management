@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Project_Advanced.Models.Book>
+
+@{
+    ViewData["Title"] = "Store";
+}
+
+<h2 class="my-4">Store</h2>
+
+
+<form asp-action="Index" class="filter-form my-1 p-2">
+    <div>
+        <label for="searchString" class="form-label mb-0"><strong>Filter search</strong></label>
+    </div>
+    <div>
+        <input type="text" name="searchString" placeholder="Title or Author or Language" class="form-control-sm" />
+    </div>
+    <div class="price-inputs">
+        <input type="number" name="minPrice" step="1" placeholder="$min" class="form-control-sm" />
+        <span>&#8212;</span>
+        <input type="number" name="maxPrice" step="1" placeholder="$max" class="form-control-sm" />
+    </div>
+    <div>
+        <input type="submit" value="Filter" class="btn btn-primary btn-sm" />
+        <a asp-action="Index" class="btn btn-secondary btn-sm">Clear</a>
+    </div>
+</form>
+
+
+
+<div class="row">
+    @foreach (var book in Model)
+    {
+        <div class="col-3">
+            <div class="card my-2 store-card">
+                <a class="a-cleanup" asp-controller="Store" asp-action="Details" asp-route-id="@book.Id">
+                    <img src="@book.ImageUrl" class="card-img-top card-img-custom">
+                    <div class="card-body" style="height: 6em;">
+                        <h5 class="mb-3">@book.Title</h5>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-text">@book.price.ToString("c")</span>
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@book.Id" class="btn btn-primary float-right store-btn"><i class="fa-solid fa-cart-plus"></i></a>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+ <style>
+
+                           
+form {
+    background-color: #f8f9fa; 
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+}
+
+form div {
+    margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="number"] {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus {
+    outline: none;
+    border-color: #007bff; /* Bootstrap Primary Color */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+form .btn {
+    margin-top: 5px;
+}
+
+form .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+form .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+}
+
+/* Alignment and Spacing for Filter Section */
+form input[type="number"] {
+    display: inline-block;
+    width: 45%;
+}
+
+form input[type="submit"] {
+    margin-right: 5px;
+}
+
+form a.btn {
+    margin-left: 5px;
+}
+
+/* Filtration Form Horizontal Layout */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px; /* Add spacing between elements */
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-form input[type="text"],
+.filter-form input[type="number"] {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    flex: 1; /* Allow inputs to grow equally */
+}
+
+.filter-form input[type="submit"],
+.filter-form a.btn {
+    white-space: nowrap; /* Prevent buttons from breaking */
+}
+
+.filter-form .price-inputs {
+    display: flex;
+    gap: 5px; /* Add space between min and max price */
+    align-items: center;
+}
+
+.filter-form input[type="number"] {
+    width: 80px; /* Fixed width for price inputs */
+}
+
+
+
+  </style>                    

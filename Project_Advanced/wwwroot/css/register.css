@@ -1,0 +1,67 @@
+﻿/* General Page Styles */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* Navbar Fix */
+nav {
+    margin-bottom: 30px;
+}
+
+/* Wrapper to Center Content */
+.page-wrapper {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: calc(100vh - 60px); /* Full height minus navbar height */
+}
+
+/* Form Container */
+form {
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Form Width */
+}
+
+/* Headings */
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form Controls */
+.form-floating {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+/* Submit Button */
+#registerSubmit {
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    #registerSubmit:hover {
+        background-color: #1659a2;
+        border-color: #144e91;
+    }

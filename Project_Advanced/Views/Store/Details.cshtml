@@ -1,0 +1,63 @@
+﻿@model Project_Advanced.Models.Book
+
+ @{
+    ViewData["Title"] = "Details";
+ }
+
+<h1>Details</h1>
+
+<div class="row">
+    <div class="col-5">
+
+        <div>
+            <h4>Book</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Author)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Author)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Language)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Language)
+                </dd>
+              
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.PublishYear)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.PublishYear)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.price)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.price)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Index" class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-primary store-btn float-right mr-5">Add to cart <i class="fa-solid fa-cart-plus"></i></a>
+        </div>
+    </div>
+    <div class="col-4">
+        <img src="@Model.ImageUrl" class="w-100" />
+    </div>
+</div>

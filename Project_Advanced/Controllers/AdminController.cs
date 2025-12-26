@@ -1,0 +1,230 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+
+using Project_Advanced.ViewModels;
+using Project_Advanced.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+namespace Project_Advanced.Controllers
+{
+    [Authorize(Roles = "Admin,SuperAdmin")]
+    public class AdminController : Controller
+    {//services to manage roles they use identity to interact with db
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
+
+        public AdminController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        {
+            _roleManager = roleManager;
+            _userManager = userManager;
+        }
+
+        [HttpGet]
+        public IActionResult ListAllRoles()
+        {
+            var roles = _roleManager.Roles;
+            return View(roles);
+        }
+        
+        [HttpGet]
+        public IActionResult AddRole()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRole(AddRoleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityRole identityRole = new()
+                {
+                    Name = model.RoleName
+                };
+
+                var result = await _roleManager.CreateAsync(identityRole);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListAllRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                ViewData["ErrorMessage"] = "Role ID is required.";
+                return View("Error");
+            }
+
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+            {
+                ViewData["ErrorMessage"] = $"No role with ID '{id}' was found.";
+                return View("Error");
+            }
+
+            var model = new EditRoleViewModel
+            {
+                Id = role.Id,
+                RoleName = role.Name,
+            };
+
+            // Evaluate users list to avoid lazy loading issues
+            var users = _userManager.Users.ToList();
+
+            foreach (var user in users)
+            {
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    model.Users.Add(user.UserName);
+                }
+            }
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        {
+            var role = await _roleManager.FindByIdAsync(model.Id);
+
+            if (role == null)
+            {
+                ViewData["ErrorMessage"] = $"No role with Id '{model.Id}' was found";
+                return View("Error");
+            }
+            else
+            {
+                role.Name = model.RoleName;
+
+                var result = await _roleManager.UpdateAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListAllRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(model);
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditUsersInRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            ViewData["roleId"] = id;
+            ViewData["roleName"] = role?.Name;
+
+            if (role == null)
+            {
+                ViewData["ErrorMessage"] = $"No role with Id '{id}' was found";
+                return View("Error");
+            }
+
+            var model = new List<UserRoleViewModel>();
+
+            // Materialize the users list to avoid multiple queries
+            var users = _userManager.Users.ToList();
+
+            foreach (var user in users)
+            {
+                UserRoleViewModel userRoleVM = new()
+                {
+                    Id = user.Id,
+                    Name = user.UserName,
+                    IsSelected = await _userManager.IsInRoleAsync(user, role.Name)
+                };
+
+                model.Add(userRoleVM);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewData["ErrorMessage"] = $"No role with Id '{id}' was found";
+                return View("Error");
+            }
+          //  Iterates over the list of users
+            for (int i = 0; i < model.Count; i++)
+            {
+                var user = await _userManager.FindByIdAsync(model[i].Id);
+                //USER IS SELECTED BUT NOT ADDED TO THE ROLE 
+                if (model[i].IsSelected && !(await _userManager.IsInRoleAsync(user, role.Name)))
+                {
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+                else if (!model[i].IsSelected && await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    await _userManager.RemoveFromRoleAsync(user, role.Name);
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            return RedirectToAction("EditRole", new { Id = id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            return View(role);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmDelete(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+
+            if (role == null)
+            {
+                ViewData["ErrorMessage"] = $"No role with Id '{id}' was found";
+                return View("Error");
+            }
+            else
+            {
+                var result = await _roleManager.DeleteAsync(role);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ListAllRoles");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                return View(role);
+            }
+        } 
+    }
+}
